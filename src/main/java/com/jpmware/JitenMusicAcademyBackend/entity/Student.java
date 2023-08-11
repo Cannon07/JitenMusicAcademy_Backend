@@ -1,10 +1,18 @@
 package com.jpmware.JitenMusicAcademyBackend.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -29,6 +37,22 @@ public class Student {
 
     @Column(name = "photo")
     private String photo;
+
+    @ManyToMany(
+        fetch = FetchType.LAZY,
+        cascade = {
+            CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.PERSIST,
+            CascadeType.REFRESH
+        }
+    )
+    @JoinTable(
+        name = "student_class",
+        joinColumns = @JoinColumn(name = "student_id"),
+        inverseJoinColumns = @JoinColumn(name = "class_id")
+    )
+    private List<Class> classes;
 
     // Constructors
 
@@ -85,12 +109,29 @@ public class Student {
         this.photo = photo;
     }
 
+    public List<Class> getClasses() {
+        return classes;
+    }
+
+    public void setClasses(List<Class> classes) {
+        this.classes = classes;
+    }
+
     // toString() method
 
     @Override
     public String toString() {
         return "Student [id=" + id + ", name=" + name + ", email=" + email + ", phone=" + phone + ", photo=" + photo
                 + "]";
+    }
+
+    // addCourse() method to add courses to the Student
+
+    public void addCourse(Class course) {
+        if (classes == null) {
+            classes = new ArrayList<>();
+        }
+        classes.add(course);
     }
     
 }

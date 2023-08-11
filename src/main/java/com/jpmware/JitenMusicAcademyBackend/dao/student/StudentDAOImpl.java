@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.jpmware.JitenMusicAcademyBackend.entity.Student;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 
@@ -50,5 +51,27 @@ public class StudentDAOImpl implements StudentDAO {
     public void deleteStudentById(int id) {
         Student student = entityManager.find(Student.class, id);
         entityManager.remove(student);
-    }     
+    }
+
+    @Override
+    public Student getStudentWithCoursesByStudentId(int id) {
+        TypedQuery<Student> query = entityManager.createQuery(
+            "SELECT s FROM Student s " + 
+            "LEFT JOIN FETCH s.classes " +
+            "WHERE s.id=:data", 
+            Student.class
+        );
+        query.setParameter("data", id);
+        Student student = null;
+        try {
+            student = query.getSingleResult();
+        } catch (NoResultException exception) {
+
+        }
+        return student;
+    }
+
+    
+
+    
 }

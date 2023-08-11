@@ -12,6 +12,7 @@ public interface StudentDAO {
     // read
     Student getStudentById(int id);
     List<Student> getAllStudents();
+    Student getStudentWithCoursesByStudentId(int id);
 
     // update
     void updateStudent(Student student);

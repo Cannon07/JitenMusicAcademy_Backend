@@ -12,10 +12,11 @@ public interface CourseDAO {
     // Read
     Class getCourseById(int id);
     List<Class> getAllClasses();
+    Class getCourseWithStudentsByCourseId(int id);
 
     // Update
     void updateCourse(Class course);
 
-    // delete
+    // Delete
     void deleteCourseById(int id);
 }
