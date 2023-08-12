@@ -8,8 +8,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import com.jpmware.JitenMusicAcademyBackend.dao.course.CourseDAO;
+import com.jpmware.JitenMusicAcademyBackend.dao.instructor.InstructorDAO;
 import com.jpmware.JitenMusicAcademyBackend.dao.student.StudentDAO;
 import com.jpmware.JitenMusicAcademyBackend.entity.Class;
+import com.jpmware.JitenMusicAcademyBackend.entity.Instructor;
 import com.jpmware.JitenMusicAcademyBackend.entity.Student;
 
 @SpringBootApplication
@@ -20,7 +22,7 @@ public class JitenMusicAcademyBackendApplication {
 	}
 
 	@Bean
-	public CommandLineRunner commandLineRunner (StudentDAO studentDAO, CourseDAO courseDAO) {
+	public CommandLineRunner commandLineRunner (InstructorDAO instructorDAO) {
 		return runner -> {
 			// createStudent(studentDAO);
 			// findStudentById(studentDAO);
@@ -31,11 +33,46 @@ public class JitenMusicAcademyBackendApplication {
 			// findCourseById(courseDAO);
 			// getAllCourses(courseDAO);
 			// updateCourse(courseDAO);
-			deleteCourseById(courseDAO);
+			// deleteCourseById(courseDAO);
 			// addStudentToCourse(studentDAO, courseDAO);
 			// addCourseWithStudents(courseDAO);
 			// addCourseToStudent(studentDAO, courseDAO);
+			// createInstructor(instructorDAO);
+			// findInstructorById(instructorDAO);
+			// getAllInstructors(instructorDAO);
+			// updateInstructorExperience(instructorDAO);
+			deleteInstructorById(instructorDAO);
 		};
+	}
+
+	private void deleteInstructorById(InstructorDAO instructorDAO) {
+		int instructor_id = 2;
+		instructorDAO.deleteInstructorById(instructor_id);
+	}
+
+	private void updateInstructorExperience(InstructorDAO instructorDAO) {
+		int instructor_id = 1;
+		Instructor instructor = instructorDAO.getInstructorById(instructor_id);
+		instructor.setExperience(7);
+		instructorDAO.updateInstructor(instructor);
+	}
+
+	private void getAllInstructors(InstructorDAO instructorDAO) {
+		List<Instructor> instructors = instructorDAO.getAllInstructors();
+		System.out.println(instructors);
+	}
+
+	private void findInstructorById(InstructorDAO instructorDAO) {
+		int instructor_id = 1;
+		Instructor instructor = instructorDAO.getInstructorById(instructor_id);
+		System.out.println(instructor);
+	}
+
+	private void createInstructor(InstructorDAO instructorDAO) {
+		Instructor instructor = new Instructor(
+			"Prathamesh", "prathamesh@email.com", 1234567890, 5, null
+		);
+		instructorDAO.createInstructor(instructor);
 	}
 
 	private void addCourseToStudent(StudentDAO studentDAO, CourseDAO courseDAO) {
