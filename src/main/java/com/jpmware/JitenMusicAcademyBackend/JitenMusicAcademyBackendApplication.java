@@ -22,7 +22,7 @@ public class JitenMusicAcademyBackendApplication {
 	}
 
 	@Bean
-	public CommandLineRunner commandLineRunner (InstructorDAO instructorDAO) {
+	public CommandLineRunner commandLineRunner (InstructorDAO instructorDAO, CourseDAO courseDAO) {
 		return runner -> {
 			// createStudent(studentDAO);
 			// findStudentById(studentDAO);
@@ -41,12 +41,29 @@ public class JitenMusicAcademyBackendApplication {
 			// findInstructorById(instructorDAO);
 			// getAllInstructors(instructorDAO);
 			// updateInstructorExperience(instructorDAO);
-			deleteInstructorById(instructorDAO);
+			// deleteInstructorById(instructorDAO);
+			// addCourseToInstructor(instructorDAO, courseDAO);
+			getCourseInstructorByCourseId(courseDAO);
 		};
 	}
 
+	private void getCourseInstructorByCourseId(CourseDAO courseDAO) {
+		int course_id = 3;
+		Class course = courseDAO.getCourseById(course_id);
+		System.out.println(course.getInstructor());
+	}
+
+	private void addCourseToInstructor(InstructorDAO instructorDAO, CourseDAO courseDAO) {
+		int instructor_id = 3;
+		Instructor instructor = instructorDAO.getInstructorWithClassesByInstructorId(instructor_id);
+		int course_id = 4;
+		Class course = courseDAO.getCourseById(course_id);
+		instructor.addClass(course);
+		instructorDAO.updateInstructor(instructor);
+	}
+
 	private void deleteInstructorById(InstructorDAO instructorDAO) {
-		int instructor_id = 2;
+		int instructor_id = 1;
 		instructorDAO.deleteInstructorById(instructor_id);
 	}
 

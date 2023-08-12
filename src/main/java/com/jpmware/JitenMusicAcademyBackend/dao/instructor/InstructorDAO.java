@@ -12,6 +12,7 @@ public interface InstructorDAO {
     // Read
     Instructor getInstructorById(int id);
     List<Instructor> getAllInstructors();
+    Instructor getInstructorWithClassesByInstructorId(int id);
 
     // Update
     void updateInstructor(Instructor instructor);

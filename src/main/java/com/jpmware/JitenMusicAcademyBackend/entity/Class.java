@@ -13,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -47,6 +48,17 @@ public class Class {
         inverseJoinColumns = @JoinColumn(name = "student_id")
     )
     private List<Student> students;
+    
+    @ManyToOne(
+        cascade = {
+            CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.PERSIST,
+            CascadeType.REFRESH
+        }
+    )
+    @JoinColumn(name = "instructor_id")
+    private Instructor instructor;
 
     // Constructors
 
@@ -91,6 +103,14 @@ public class Class {
 
     public void setStudents(List<Student> students) {
         this.students = students;
+    }
+
+    public Instructor getInstructor() {
+        return instructor;
+    }
+
+    public void setInstructor(Instructor instructor) {
+        this.instructor = instructor;
     }
 
     // toString() method

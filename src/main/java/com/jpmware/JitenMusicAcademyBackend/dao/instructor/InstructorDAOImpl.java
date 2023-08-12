@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.jpmware.JitenMusicAcademyBackend.entity.Instructor;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 
@@ -50,6 +51,24 @@ public class InstructorDAOImpl implements InstructorDAO{
     public void deleteInstructorById(int id) {
         Instructor instructor = entityManager.find(Instructor.class, id);
         entityManager.remove(instructor);
+    }
+
+    @Override
+    public Instructor getInstructorWithClassesByInstructorId(int id) {
+        TypedQuery<Instructor> query = entityManager.createQuery(
+            "SELECT i FROM Instructor i " + 
+            "LEFT JOIN FETCH i.classes " +
+            "WHERE i.id=:data", 
+            Instructor.class
+        );
+        query.setParameter("data", id);
+        Instructor instructor = null;
+        try {
+            instructor = query.getSingleResult();
+        } catch (NoResultException exception) {
+
+        }
+        return instructor;
     }
     
 }
