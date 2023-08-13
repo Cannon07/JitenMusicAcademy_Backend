@@ -13,6 +13,7 @@ import com.jpmware.JitenMusicAcademyBackend.dao.student.StudentDAO;
 import com.jpmware.JitenMusicAcademyBackend.entity.Class;
 import com.jpmware.JitenMusicAcademyBackend.entity.Instructor;
 import com.jpmware.JitenMusicAcademyBackend.entity.Student;
+import com.jpmware.JitenMusicAcademyBackend.service.student.StudentService;
 
 @SpringBootApplication
 public class JitenMusicAcademyBackendApplication {
@@ -21,9 +22,9 @@ public class JitenMusicAcademyBackendApplication {
 		SpringApplication.run(JitenMusicAcademyBackendApplication.class, args);
 	}
 
-	@Bean
-	public CommandLineRunner commandLineRunner (InstructorDAO instructorDAO, CourseDAO courseDAO) {
-		return runner -> {
+	// @Bean
+	// public CommandLineRunner commandLineRunner (StudentService studentService) {
+	// 	return runner -> {
 			// createStudent(studentDAO);
 			// findStudentById(studentDAO);
 			// showAllStudents(studentDAO);
@@ -43,8 +44,14 @@ public class JitenMusicAcademyBackendApplication {
 			// updateInstructorExperience(instructorDAO);
 			// deleteInstructorById(instructorDAO);
 			// addCourseToInstructor(instructorDAO, courseDAO);
-			getCourseInstructorByCourseId(courseDAO);
-		};
+			// getCourseInstructorByCourseId(courseDAO);
+			// showAllStudents(studentService);
+	// 	};
+	// }
+
+	private void showAllStudents(StudentService studentService) {
+		List<Student> students = studentService.getAllStudents();
+		System.out.println(students);
 	}
 
 	private void getCourseInstructorByCourseId(CourseDAO courseDAO) {

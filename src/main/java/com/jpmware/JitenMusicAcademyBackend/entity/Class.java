@@ -3,6 +3,9 @@ package com.jpmware.JitenMusicAcademyBackend.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,6 +36,7 @@ public class Class {
     @Column(name = "description")
     private String description;
 
+    @JsonIgnore
     @ManyToMany(
         fetch = FetchType.LAZY,
         cascade = {
@@ -49,6 +53,7 @@ public class Class {
     )
     private List<Student> students;
     
+    @JsonIgnore
     @ManyToOne(
         cascade = {
             CascadeType.DETACH,

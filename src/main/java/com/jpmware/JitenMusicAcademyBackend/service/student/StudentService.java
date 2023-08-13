@@ -1,23 +1,21 @@
-package com.jpmware.JitenMusicAcademyBackend.dao.student;
+package com.jpmware.JitenMusicAcademyBackend.service.student;
 
 import java.util.List;
 
 import com.jpmware.JitenMusicAcademyBackend.entity.Student;
 
-public interface StudentDAO {
-
-    // create
+public interface StudentService {
+    
+    // Create
     Student createStudent(Student student);
 
-    // read
+    // Read
     Student getStudentById(int id);
     List<Student> getAllStudents();
-    Student getStudentWithCoursesByStudentId(int id);
 
-    // update
-    Student updateStudent(Student student);
+    // Update
+    Student updateStudentById(int id, Student student);
 
-    // delete
+    // Delete
     Student deleteStudentById(int id);
-
 }
