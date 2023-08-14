@@ -7,7 +7,7 @@ import com.jpmware.JitenMusicAcademyBackend.entity.Class;
 public interface CourseDAO {
 
     // Create
-    void createCourse(Class course);
+    Class createCourse(Class course);
 
     // Read
     Class getCourseById(int id);
@@ -15,8 +15,8 @@ public interface CourseDAO {
     Class getCourseWithStudentsByCourseId(int id);
 
     // Update
-    void updateCourse(Class course);
+    Class updateCourse(Class course);
 
     // Delete
-    void deleteCourseById(int id);
+    Class deleteCourseById(int id);
 }

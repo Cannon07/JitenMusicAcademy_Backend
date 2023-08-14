@@ -10,7 +10,6 @@ import com.jpmware.JitenMusicAcademyBackend.entity.Class;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
-import jakarta.transaction.Transactional;
 
 @Repository
 public class CourseDAOImpl implements CourseDAO {
@@ -23,9 +22,9 @@ public class CourseDAOImpl implements CourseDAO {
     }
 
     @Override
-    @Transactional
-    public void createCourse(Class course) {
+    public Class createCourse(Class course) {
         entityManager.persist(course);
+        return course;
     }
 
     @Override
@@ -40,16 +39,16 @@ public class CourseDAOImpl implements CourseDAO {
     }
 
     @Override
-    @Transactional
-    public void updateCourse(Class course) {
+    public Class updateCourse(Class course) {
         entityManager.merge(course);
+        return course;
     }
 
     @Override
-    @Transactional
-    public void deleteCourseById(int id) {
+    public Class deleteCourseById(int id) {
         Class course = entityManager.find(Class.class, id);
         entityManager.remove(course);
+        return course;
     }
 
     @Override
