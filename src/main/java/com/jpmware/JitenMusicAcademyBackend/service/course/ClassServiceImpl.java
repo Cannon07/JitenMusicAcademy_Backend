@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jpmware.JitenMusicAcademyBackend.dao.course.CourseDAO;
+import com.jpmware.JitenMusicAcademyBackend.dao.student.StudentDAO;
 import com.jpmware.JitenMusicAcademyBackend.entity.Class;
+import com.jpmware.JitenMusicAcademyBackend.entity.Student;
 
 import jakarta.transaction.Transactional;
 
@@ -14,10 +16,12 @@ import jakarta.transaction.Transactional;
 public class ClassServiceImpl implements ClassService {
     
     private CourseDAO courseDAO;
+    private StudentDAO studentDAO;
 
     @Autowired
-    public ClassServiceImpl(CourseDAO courseDAO) {
+    public ClassServiceImpl(CourseDAO courseDAO, StudentDAO studentDAO) {
         this.courseDAO = courseDAO;
+        this.studentDAO = studentDAO;
     }
 
     @Override
@@ -50,6 +54,22 @@ public class ClassServiceImpl implements ClassService {
     public Class deleteClassById(int id) {
         Class deletedClass = courseDAO.deleteCourseById(id);
         return deletedClass;
+    }
+
+    @Override
+    public List<Student> getStudentsInClass(int id) {
+        Class course = courseDAO.getCourseWithStudentsByCourseId(id);
+        List<Student> students = course.getStudents();
+        return students;
+    }
+
+    @Override
+    @Transactional
+    public void enrollStudentToClass(int class_id, int student_id) {
+        Class course = courseDAO.getCourseWithStudentsByCourseId(class_id);
+        Student student = studentDAO.getStudentById(student_id);
+        course.addStudent(student);
+        courseDAO.updateCourse(course);
     }
     
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.jpmware.JitenMusicAcademyBackend.dao.student.StudentDAO;
 import com.jpmware.JitenMusicAcademyBackend.entity.Student;
+import com.jpmware.JitenMusicAcademyBackend.entity.Class;
 
 import jakarta.transaction.Transactional;
 
@@ -52,5 +53,13 @@ public class StudentServiceImpl implements StudentService{
         Student deletedStudent = studentDAO.deleteStudentById(id);
         return deletedStudent;
     }
+
+    @Override
+    public List<Class> getStudentClasses(int id) {
+        Student student = studentDAO.getStudentWithCoursesByStudentId(id);
+        List<Class> classes = student.getClasses();
+        return classes;
+    }
+    
     
 }
