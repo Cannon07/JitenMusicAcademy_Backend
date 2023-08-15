@@ -3,6 +3,7 @@ package com.jpmware.JitenMusicAcademyBackend.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
@@ -41,7 +42,8 @@ public class Instructor {
     @Column(name = "photo")
     private String photo;
 
-    @JsonManagedReference
+    // @JsonManagedReference
+    @JsonIgnore
     @OneToMany(
         mappedBy = "instructor",
         fetch = FetchType.LAZY,
