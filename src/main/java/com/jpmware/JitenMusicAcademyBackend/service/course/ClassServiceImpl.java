@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jpmware.JitenMusicAcademyBackend.dao.course.CourseDAO;
+import com.jpmware.JitenMusicAcademyBackend.dao.instructor.InstructorDAO;
 import com.jpmware.JitenMusicAcademyBackend.dao.student.StudentDAO;
 import com.jpmware.JitenMusicAcademyBackend.entity.Class;
+import com.jpmware.JitenMusicAcademyBackend.entity.Instructor;
 import com.jpmware.JitenMusicAcademyBackend.entity.Student;
 
 import jakarta.transaction.Transactional;
@@ -17,11 +19,13 @@ public class ClassServiceImpl implements ClassService {
     
     private CourseDAO courseDAO;
     private StudentDAO studentDAO;
+    private InstructorDAO instructorDAO;
 
     @Autowired
-    public ClassServiceImpl(CourseDAO courseDAO, StudentDAO studentDAO) {
+    public ClassServiceImpl(CourseDAO courseDAO, StudentDAO studentDAO, InstructorDAO instructorDAO) {
         this.courseDAO = courseDAO;
         this.studentDAO = studentDAO;
+        this.instructorDAO = instructorDAO;
     }
 
     @Override
@@ -64,11 +68,27 @@ public class ClassServiceImpl implements ClassService {
     }
 
     @Override
+    public Instructor getClassInstructor(int id) {
+        Class course = courseDAO.getCourseById(id);
+        Instructor instructor = course.getInstructor();
+        return instructor;
+    }
+
+    @Override
     @Transactional
     public void enrollStudentToClass(int class_id, int student_id) {
         Class course = courseDAO.getCourseWithStudentsByCourseId(class_id);
         Student student = studentDAO.getStudentById(student_id);
         course.addStudent(student);
+        courseDAO.updateCourse(course);
+    }
+
+    @Override
+    @Transactional
+    public void assignInstructorToCourse(int class_id, int instructor_id) {
+        Class course = courseDAO.getCourseById(class_id);
+        Instructor instructor = instructorDAO.getInstructorById(instructor_id);
+        course.setInstructor(instructor);
         courseDAO.updateCourse(course);
     }
     

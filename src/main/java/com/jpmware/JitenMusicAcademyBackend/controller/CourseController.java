@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jpmware.JitenMusicAcademyBackend.entity.Class;
+import com.jpmware.JitenMusicAcademyBackend.entity.Instructor;
 import com.jpmware.JitenMusicAcademyBackend.entity.Student;
 import com.jpmware.JitenMusicAcademyBackend.service.course.ClassService;
 
@@ -48,6 +49,16 @@ public class CourseController {
         return ResponseEntity.ok().body(response);
     }
 
+    @PostMapping("/{class_id}/assign-instructor/{instructor_id}")
+    public ResponseEntity<Map<String, String>> assignInstructorToCourse (@PathVariable int class_id, @PathVariable int instructor_id) {
+        classService.assignInstructorToCourse(class_id, instructor_id);
+        Map <String, String> response = new TreeMap<>();
+        String message = "Instructor with Instructor-ID " + instructor_id + 
+            " has been successifully enrolled to the Class with Class-ID " + class_id;  
+        response.put("message", message);
+        return ResponseEntity.ok().body(response);
+    }
+
     // Get
 
     @GetMapping("/{class_id}")
@@ -66,6 +77,12 @@ public class CourseController {
     public List<Student> getStudentsEnrolledInClass(@PathVariable int class_id) {
         List<Student> students = classService.getStudentsInClass(class_id);
         return students;
+    }
+
+    @GetMapping("/{class_id}/instructor")
+    public Instructor getClassInstructor(@PathVariable int class_id) {
+        Instructor instructor = classService.getClassInstructor(class_id);
+        return instructor;
     }
 
     // Update

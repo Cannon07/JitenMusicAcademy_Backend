@@ -3,6 +3,7 @@ package com.jpmware.JitenMusicAcademyBackend.service.instructor;
 import java.util.List;
 
 import com.jpmware.JitenMusicAcademyBackend.entity.Instructor;
+import com.jpmware.JitenMusicAcademyBackend.entity.Class;
 
 public interface InstructorService {
 
@@ -12,6 +13,7 @@ public interface InstructorService {
     // Read
     Instructor getInstructorById(int id);
     List<Instructor> getAllInstructors();
+    List<Class> getInstructorClasses(int id);
 
     // Update
     Instructor updateInstructorById(int id, Instructor instructor);

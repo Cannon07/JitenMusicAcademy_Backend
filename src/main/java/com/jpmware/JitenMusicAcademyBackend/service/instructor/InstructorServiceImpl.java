@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jpmware.JitenMusicAcademyBackend.dao.instructor.InstructorDAO;
+import com.jpmware.JitenMusicAcademyBackend.entity.Class;
 import com.jpmware.JitenMusicAcademyBackend.entity.Instructor;
 
 import jakarta.transaction.Transactional;
@@ -37,6 +38,13 @@ public class InstructorServiceImpl implements InstructorService{
     public List<Instructor> getAllInstructors() {
         List<Instructor> instructors = instructorDAO.getAllInstructors();
         return instructors;
+    }
+
+    @Override
+    public List<Class> getInstructorClasses(int id) {
+        Instructor instructor = instructorDAO.getInstructorWithClassesByInstructorId(id);
+        List<Class> classes = instructor.getClasses();
+        return classes;
     }
 
     @Override

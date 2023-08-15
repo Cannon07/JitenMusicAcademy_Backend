@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jpmware.JitenMusicAcademyBackend.entity.Class;
 import com.jpmware.JitenMusicAcademyBackend.entity.Instructor;
 import com.jpmware.JitenMusicAcademyBackend.service.instructor.InstructorService;
 
@@ -46,6 +47,12 @@ public class InstructorController {
     public List<Instructor> getAllInstructors() {
         List<Instructor> instructors = instructorService.getAllInstructors();
         return instructors;
+    }
+
+    @GetMapping("/{instructor_id}/classes")
+    public List<Class> getInstructorClasses(@PathVariable int instructor_id) {
+        List<Class> classes = instructorService.getInstructorClasses(instructor_id);
+        return classes;
     }
 
     // Put

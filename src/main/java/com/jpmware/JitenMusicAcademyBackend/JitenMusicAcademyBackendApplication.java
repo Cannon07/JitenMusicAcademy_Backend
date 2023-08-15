@@ -23,7 +23,7 @@ public class JitenMusicAcademyBackendApplication {
 	}
 
 	// @Bean
-	// public CommandLineRunner commandLineRunner (StudentService studentService) {
+	// public CommandLineRunner commandLineRunner (CourseDAO courseDAO) {
 	// 	return runner -> {
 			// createStudent(studentDAO);
 			// findStudentById(studentDAO);
@@ -55,7 +55,7 @@ public class JitenMusicAcademyBackendApplication {
 	}
 
 	private void getCourseInstructorByCourseId(CourseDAO courseDAO) {
-		int course_id = 3;
+		int course_id = 4;
 		Class course = courseDAO.getCourseById(course_id);
 		System.out.println(course.getInstructor());
 	}
