@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.jpmware.JitenMusicAcademyBackend.dao.student.StudentDAO;
 import com.jpmware.JitenMusicAcademyBackend.entity.Student;
-import com.jpmware.JitenMusicAcademyBackend.exception.StudentNotFoundException;
+import com.jpmware.JitenMusicAcademyBackend.exception.custom.StudentNotFoundException;
 import com.jpmware.JitenMusicAcademyBackend.entity.Class;
 
 import jakarta.transaction.Transactional;

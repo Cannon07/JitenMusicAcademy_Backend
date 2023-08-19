@@ -1,4 +1,4 @@
-package com.jpmware.JitenMusicAcademyBackend.exception;
+package com.jpmware.JitenMusicAcademyBackend.exception.custom;
 
 public class ClassNotFoundException extends CustomException {
 

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jpmware.JitenMusicAcademyBackend.entity.Class;
 import com.jpmware.JitenMusicAcademyBackend.entity.Student;
+import com.jpmware.JitenMusicAcademyBackend.exception.custom.InvalidInputException;
 import com.jpmware.JitenMusicAcademyBackend.service.student.StudentService;
 
 @RestController
@@ -38,9 +39,14 @@ public class StudentController {
     // Get
 
     @GetMapping("/{student_id}")
-    public Student getStudentById(@PathVariable int student_id) {
-        Student student = studentService.getStudentById(student_id);
-        return student;
+    public Student getStudentById(@PathVariable String student_id) {
+        try {
+            int id = Integer.parseInt(student_id);
+            Student student = studentService.getStudentById(id);
+            return student;
+        } catch (NumberFormatException exception) {
+            throw new InvalidInputException("Invalid Student ID: " + student_id);
+        }
     }
 
     @GetMapping
@@ -50,24 +56,39 @@ public class StudentController {
     }
 
     @GetMapping("/{student_id}/classes")
-    public List<Class> getStudentEnrolledClasses(@PathVariable int student_id) {
-        List<Class> classes = studentService.getStudentClasses(student_id);
-        return classes;
+    public List<Class> getStudentEnrolledClasses(@PathVariable String student_id) {
+        try {
+            int id = Integer.parseInt(student_id);
+            List<Class> classes = studentService.getStudentClasses(id);
+            return classes;
+        } catch (NumberFormatException exception) {
+            throw new InvalidInputException("Invalid Student ID: " + student_id);
+        }
     }
 
     // Put
 
     @PutMapping("/{student_id}")
-    public Student updatedStudent(@PathVariable int student_id, @RequestBody Student student) {
-        Student updatedStudent = studentService.updateStudentById(student_id, student);
-        return updatedStudent;
+    public Student updatedStudent(@PathVariable String student_id, @RequestBody Student student) {
+        try {
+            int id = Integer.parseInt(student_id);
+            Student updatedStudent = studentService.updateStudentById(id, student);
+            return updatedStudent;
+        } catch (NumberFormatException exception) {
+            throw new InvalidInputException("Invalid Student ID: " + student_id);
+        }
     }
 
     // Delete
 
     @DeleteMapping("/{student_id}")
-    public Student deleteStudent(@PathVariable int student_id) {
-        Student deletedStudent = studentService.deleteStudentById(student_id);
-        return deletedStudent;
+    public Student deleteStudent(@PathVariable String student_id) {
+        try {
+            int id = Integer.parseInt(student_id);
+            Student deletedStudent = studentService.deleteStudentById(id);
+            return deletedStudent;
+        } catch (NumberFormatException exception) {
+            throw new InvalidInputException("Invalid Student ID: " + student_id);
+        }
     }
 }

@@ -11,9 +11,9 @@ import com.jpmware.JitenMusicAcademyBackend.dao.student.StudentDAO;
 import com.jpmware.JitenMusicAcademyBackend.entity.Class;
 import com.jpmware.JitenMusicAcademyBackend.entity.Instructor;
 import com.jpmware.JitenMusicAcademyBackend.entity.Student;
-import com.jpmware.JitenMusicAcademyBackend.exception.ClassNotFoundException;
-import com.jpmware.JitenMusicAcademyBackend.exception.InstructorNotFoundException;
-import com.jpmware.JitenMusicAcademyBackend.exception.StudentNotFoundException;
+import com.jpmware.JitenMusicAcademyBackend.exception.custom.ClassNotFoundException;
+import com.jpmware.JitenMusicAcademyBackend.exception.custom.InstructorNotFoundException;
+import com.jpmware.JitenMusicAcademyBackend.exception.custom.StudentNotFoundException;
 
 import jakarta.transaction.Transactional;
 

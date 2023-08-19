@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.jpmware.JitenMusicAcademyBackend.dao.instructor.InstructorDAO;
 import com.jpmware.JitenMusicAcademyBackend.entity.Class;
 import com.jpmware.JitenMusicAcademyBackend.entity.Instructor;
-import com.jpmware.JitenMusicAcademyBackend.exception.InstructorNotFoundException;
+import com.jpmware.JitenMusicAcademyBackend.exception.custom.InstructorNotFoundException;
 
 import jakarta.transaction.Transactional;
 
