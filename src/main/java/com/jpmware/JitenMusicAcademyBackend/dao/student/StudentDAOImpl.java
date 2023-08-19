@@ -40,7 +40,11 @@ public class StudentDAOImpl implements StudentDAO {
     }
 
     @Override
-    public Student updateStudent(Student student) {
+    public Student updateStudent(int id, Student student) {
+        Student studentToBeUpdated = entityManager.find(Student.class, id);
+        if (studentToBeUpdated == null) {
+            return null;
+        }
         entityManager.merge(student);
         return student;
     }
@@ -48,6 +52,9 @@ public class StudentDAOImpl implements StudentDAO {
     @Override
     public Student deleteStudentById(int id) {
         Student student = entityManager.find(Student.class, id);
+        if (student == null) {
+            return null;
+        }
         entityManager.remove(student);
         return student;
     }

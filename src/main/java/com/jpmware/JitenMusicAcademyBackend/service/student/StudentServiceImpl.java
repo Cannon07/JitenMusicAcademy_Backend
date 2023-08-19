@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.jpmware.JitenMusicAcademyBackend.dao.student.StudentDAO;
 import com.jpmware.JitenMusicAcademyBackend.entity.Student;
+import com.jpmware.JitenMusicAcademyBackend.exception.StudentNotFoundException;
 import com.jpmware.JitenMusicAcademyBackend.entity.Class;
 
 import jakarta.transaction.Transactional;
@@ -30,6 +31,9 @@ public class StudentServiceImpl implements StudentService{
     @Override
     public Student getStudentById(int id) {
         Student student = studentDAO.getStudentById(id);
+        if (student == null) {
+            throw new StudentNotFoundException(id);
+        }
         return student;
     }
 
@@ -43,7 +47,10 @@ public class StudentServiceImpl implements StudentService{
     @Override
     @Transactional
     public Student updateStudentById(int id, Student student) {
-        Student updatedStudent = studentDAO.updateStudent(student);
+        Student updatedStudent = studentDAO.updateStudent(id, student);
+        if (updatedStudent == null) {
+            throw new StudentNotFoundException(id);
+        }
         return updatedStudent;
     }
 
@@ -51,12 +58,18 @@ public class StudentServiceImpl implements StudentService{
     @Transactional
     public Student deleteStudentById(int id) {
         Student deletedStudent = studentDAO.deleteStudentById(id);
+        if (deletedStudent == null) {
+            throw new StudentNotFoundException(id);
+        }
         return deletedStudent;
     }
 
     @Override
     public List<Class> getStudentClasses(int id) {
         Student student = studentDAO.getStudentWithCoursesByStudentId(id);
+        if (student == null) {
+            throw new StudentNotFoundException(id);
+        }
         List<Class> classes = student.getClasses();
         return classes;
     }
