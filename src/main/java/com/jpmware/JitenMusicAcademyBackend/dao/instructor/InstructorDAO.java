@@ -15,7 +15,7 @@ public interface InstructorDAO {
     Instructor getInstructorWithClassesByInstructorId(int id);
 
     // Update
-    Instructor updateInstructor(Instructor instructor);
+    Instructor updateInstructor(int id, Instructor instructor);
 
     // Delete
     Instructor deleteInstructorById(int id);

@@ -40,7 +40,11 @@ public class InstructorDAOImpl implements InstructorDAO{
     }
 
     @Override
-    public Instructor updateInstructor(Instructor instructor) {
+    public Instructor updateInstructor(int id, Instructor instructor) {
+        Instructor instructorToBeUpdated = entityManager.find(Instructor.class, id);
+        if (instructorToBeUpdated == null) {
+            return null;
+        }
         entityManager.merge(instructor);
         return instructor;
     }
@@ -48,6 +52,9 @@ public class InstructorDAOImpl implements InstructorDAO{
     @Override
     public Instructor deleteInstructorById(int id) {
         Instructor instructor = entityManager.find(Instructor.class, id);
+        if (instructor == null) {
+            return null;
+        }
         entityManager.remove(instructor);
         return instructor;
     }

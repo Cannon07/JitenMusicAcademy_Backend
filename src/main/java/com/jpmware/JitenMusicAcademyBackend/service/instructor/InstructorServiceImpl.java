@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.jpmware.JitenMusicAcademyBackend.dao.instructor.InstructorDAO;
 import com.jpmware.JitenMusicAcademyBackend.entity.Class;
 import com.jpmware.JitenMusicAcademyBackend.entity.Instructor;
+import com.jpmware.JitenMusicAcademyBackend.exception.InstructorNotFoundException;
 
 import jakarta.transaction.Transactional;
 
@@ -31,6 +32,9 @@ public class InstructorServiceImpl implements InstructorService{
     @Override
     public Instructor getInstructorById(int id) {
         Instructor instructor = instructorDAO.getInstructorById(id);
+        if (instructor == null) {
+            throw new InstructorNotFoundException(id);
+        }
         return instructor;
     }
 
@@ -43,6 +47,9 @@ public class InstructorServiceImpl implements InstructorService{
     @Override
     public List<Class> getInstructorClasses(int id) {
         Instructor instructor = instructorDAO.getInstructorWithClassesByInstructorId(id);
+        if (instructor == null) {
+            throw new InstructorNotFoundException(id);
+        }
         List<Class> classes = instructor.getClasses();
         return classes;
     }
@@ -50,7 +57,10 @@ public class InstructorServiceImpl implements InstructorService{
     @Override
     @Transactional
     public Instructor updateInstructorById(int id, Instructor instructor) {
-        Instructor updatedInstructor = instructorDAO.updateInstructor(instructor);
+        Instructor updatedInstructor = instructorDAO.updateInstructor(id, instructor);
+        if (updatedInstructor == null) {
+            throw new InstructorNotFoundException(id);
+        }
         return updatedInstructor;
     }
 
@@ -58,6 +68,9 @@ public class InstructorServiceImpl implements InstructorService{
     @Transactional
     public Instructor deleteInstructorById(int id) {
         Instructor deletedInstructor = instructorDAO.deleteInstructorById(id);
+        if (deletedInstructor == null) {
+            throw new InstructorNotFoundException(id);
+        }
         return deletedInstructor;
     }
     
