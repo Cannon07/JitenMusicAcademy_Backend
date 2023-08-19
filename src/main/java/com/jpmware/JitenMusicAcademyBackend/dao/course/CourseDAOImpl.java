@@ -39,7 +39,11 @@ public class CourseDAOImpl implements CourseDAO {
     }
 
     @Override
-    public Class updateCourse(Class course) {
+    public Class updateCourse(int id, Class course) {
+        Class courseToBeUpdated = entityManager.find(Class.class, id);
+        if (courseToBeUpdated == null) {
+            return null;
+        }
         entityManager.merge(course);
         return course;
     }
@@ -47,6 +51,9 @@ public class CourseDAOImpl implements CourseDAO {
     @Override
     public Class deleteCourseById(int id) {
         Class course = entityManager.find(Class.class, id);
+        if (course == null) {
+            return null;
+        }
         entityManager.remove(course);
         return course;
     }

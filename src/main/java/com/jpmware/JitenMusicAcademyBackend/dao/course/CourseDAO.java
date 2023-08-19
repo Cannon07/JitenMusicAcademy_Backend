@@ -15,7 +15,7 @@ public interface CourseDAO {
     Class getCourseWithStudentsByCourseId(int id);
 
     // Update
-    Class updateCourse(Class course);
+    Class updateCourse(int id, Class course);
 
     // Delete
     Class deleteCourseById(int id);
