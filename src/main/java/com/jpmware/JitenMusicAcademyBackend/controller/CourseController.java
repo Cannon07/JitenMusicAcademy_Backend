@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jpmware.JitenMusicAcademyBackend.entity.Class;
 import com.jpmware.JitenMusicAcademyBackend.entity.Instructor;
 import com.jpmware.JitenMusicAcademyBackend.entity.Student;
+import com.jpmware.JitenMusicAcademyBackend.exception.custom.InvalidInputException;
 import com.jpmware.JitenMusicAcademyBackend.service.course.ClassService;
 
 @RestController
@@ -40,8 +41,20 @@ public class CourseController {
     }
 
     @PostMapping("/{class_id}/enroll/{student_id}")
-    public ResponseEntity<Map<String, String>> enrollStudentToCourse (@PathVariable int class_id, @PathVariable int student_id) {
-        classService.enrollStudentToClass(class_id, student_id);
+    public ResponseEntity<Map<String, String>> enrollStudentToCourse (@PathVariable String class_id, @PathVariable String student_id) {
+        int valid_class_id = -1;
+        int valid_student_id = -1;
+        try {
+            valid_class_id = Integer.parseInt(class_id);
+        } catch (NumberFormatException exception) {
+            throw new InvalidInputException("Invalid Class ID: " + class_id);
+        }
+        try {
+            valid_student_id = Integer.parseInt(student_id);
+        } catch (NumberFormatException exception) {
+            throw new InvalidInputException("Invalid Student ID: " + student_id);
+        }
+        classService.enrollStudentToClass(valid_class_id, valid_student_id);
         Map <String, String> response = new TreeMap<>();
         String message = "Student with Student-ID " + student_id + 
             " has been successifully enrolled to the Class with Class-ID " + class_id;  
@@ -50,8 +63,20 @@ public class CourseController {
     }
 
     @PostMapping("/{class_id}/assign-instructor/{instructor_id}")
-    public ResponseEntity<Map<String, String>> assignInstructorToCourse (@PathVariable int class_id, @PathVariable int instructor_id) {
-        classService.assignInstructorToCourse(class_id, instructor_id);
+    public ResponseEntity<Map<String, String>> assignInstructorToCourse (@PathVariable String class_id, @PathVariable String instructor_id) {
+        int valid_class_id = -1;
+        int valid_instructor_id = -1;
+        try {
+            valid_class_id = Integer.parseInt(class_id);
+        } catch (NumberFormatException exception) {
+            throw new InvalidInputException("Invalid Class ID: " + class_id);
+        }
+        try {
+            valid_instructor_id = Integer.parseInt(instructor_id);
+        } catch (NumberFormatException exception) {
+            throw new InvalidInputException("Invalid Instructor ID: " + instructor_id);
+        }
+        classService.assignInstructorToCourse(valid_class_id, valid_instructor_id);
         Map <String, String> response = new TreeMap<>();
         String message = "Instructor with Instructor-ID " + instructor_id + 
             " has been successifully enrolled to the Class with Class-ID " + class_id;  
@@ -62,9 +87,14 @@ public class CourseController {
     // Get
 
     @GetMapping("/{class_id}")
-    public Class getClassById(@PathVariable int class_id) {
-        Class course = classService.getClassById(class_id);
-        return course;
+    public Class getClassById(@PathVariable String class_id) {
+        try {
+            int id = Integer.parseInt(class_id);
+            Class course = classService.getClassById(id);
+            return course;
+        } catch (NumberFormatException exception) {
+            throw new InvalidInputException("Invalid Class ID: " + class_id);
+        }
     }
     
     @GetMapping
@@ -74,30 +104,50 @@ public class CourseController {
     }
 
     @GetMapping("/{class_id}/students")
-    public List<Student> getStudentsEnrolledInClass(@PathVariable int class_id) {
-        List<Student> students = classService.getStudentsInClass(class_id);
-        return students;
+    public List<Student> getStudentsEnrolledInClass(@PathVariable String class_id) {
+        try {
+            int id = Integer.parseInt(class_id);
+            List<Student> students = classService.getStudentsInClass(id);
+            return students;
+        } catch (NumberFormatException exception) {
+            throw new InvalidInputException("Invalid Class ID: " + class_id);
+        }
     }
 
     @GetMapping("/{class_id}/instructor")
-    public Instructor getClassInstructor(@PathVariable int class_id) {
-        Instructor instructor = classService.getClassInstructor(class_id);
-        return instructor;
+    public Instructor getClassInstructor(@PathVariable String class_id) {
+        try { 
+            int id = Integer.parseInt(class_id);
+            Instructor instructor = classService.getClassInstructor(id);
+            return instructor;
+        } catch (NumberFormatException exception) {
+            throw new InvalidInputException("Invalid Class ID: " + class_id);
+        }
     }
 
     // Update
 
     @PutMapping("/{class_id}")
-    public Class updateClassById(@PathVariable int class_id, @RequestBody Class course) {
-        Class updatedClass = classService.updateClass(class_id, course);
-        return updatedClass;
+    public Class updateClassById(@PathVariable String class_id, @RequestBody Class course) {
+        try {
+            int id = Integer.parseInt(class_id);
+            Class updatedClass = classService.updateClass(id, course);
+            return updatedClass;
+        } catch (NumberFormatException exception) {
+            throw new InvalidInputException("Invalid Class ID: " + class_id);
+        }
     }
 
     // Delete
 
     @DeleteMapping("/{class_id}")
-    public Class deleteClassById(@PathVariable int class_id) {
-        Class deletedClass = classService.deleteClassById(class_id);
-        return deletedClass;
+    public Class deleteClassById(@PathVariable String class_id) {
+        try {
+            int id = Integer.parseInt(class_id);
+            Class deletedClass = classService.deleteClassById(id);
+            return deletedClass;
+        } catch (NumberFormatException exception) {
+            throw new InvalidInputException("Invalid Class ID: " + class_id);
+        }
     }
 }
