@@ -13,6 +13,7 @@ import com.jpmware.JitenMusicAcademyBackend.entity.Instructor;
 import com.jpmware.JitenMusicAcademyBackend.entity.Student;
 import com.jpmware.JitenMusicAcademyBackend.exception.custom.ClassNotFoundException;
 import com.jpmware.JitenMusicAcademyBackend.exception.custom.InstructorNotFoundException;
+import com.jpmware.JitenMusicAcademyBackend.exception.custom.StudentEnrollmentException;
 import com.jpmware.JitenMusicAcademyBackend.exception.custom.StudentNotFoundException;
 
 import jakarta.transaction.Transactional;
@@ -103,7 +104,34 @@ public class ClassServiceImpl implements ClassService {
         if (student == null) {
             throw new StudentNotFoundException(student_id);
         }
+        List<Student> enrolledStudents = course.getStudents();
+        if (enrolledStudents.contains(student)) {
+            throw new StudentEnrollmentException(
+                "Student with ID " + student_id + " is already enrolled in the Class with ID " + class_id
+            );
+        }
         course.addStudent(student);
+        courseDAO.updateCourse(class_id, course);
+    }
+
+    @Override
+    @Transactional
+    public void unenrollStudentFromClass(int class_id, int student_id) {
+        Class course = courseDAO.getCourseWithStudentsByCourseId(class_id);
+        if (course == null) {
+            throw new ClassNotFoundException(class_id);
+        }
+        Student student = studentDAO.getStudentById(student_id);
+        if (student == null) {
+            throw new StudentNotFoundException(student_id);
+        }
+        List<Student> enrolledStudents = course.getStudents();
+        if (!enrolledStudents.contains(student)) {
+            throw new StudentEnrollmentException(
+                "Student with ID " + student_id + " is not enrolled in the Class with ID " + class_id
+            );
+        }
+        course.removeStudent(student);
         courseDAO.updateCourse(class_id, course);
     }
 

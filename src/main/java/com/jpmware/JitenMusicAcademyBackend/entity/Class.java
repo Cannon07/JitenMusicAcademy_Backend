@@ -132,4 +132,10 @@ public class Class {
         }
         students.add(student);
     }
+
+    // removeStudent() method to remove Student from the Course
+
+    public void removeStudent(Student student) {
+        students.remove(student);
+    }
 }

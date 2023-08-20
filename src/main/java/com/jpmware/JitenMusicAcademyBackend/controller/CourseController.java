@@ -42,6 +42,9 @@ public class CourseController {
 
     @PostMapping("/{class_id}/enroll/{student_id}")
     public ResponseEntity<Map<String, String>> enrollStudentToCourse (@PathVariable String class_id, @PathVariable String student_id) {
+        
+        // Checking if the passed IDs are valid or not
+        
         int valid_class_id = -1;
         int valid_student_id = -1;
         try {
@@ -54,11 +57,54 @@ public class CourseController {
         } catch (NumberFormatException exception) {
             throw new InvalidInputException("Invalid Student ID: " + student_id);
         }
+
+        // Enrolling Student to the Class
+
         classService.enrollStudentToClass(valid_class_id, valid_student_id);
+
+        // Creating an appropriate Response
+
         Map <String, String> response = new TreeMap<>();
         String message = "Student with Student-ID " + student_id + 
             " has been successifully enrolled to the Class with Class-ID " + class_id;  
         response.put("message", message);
+
+        // Sending the response
+
+        return ResponseEntity.ok().body(response);
+    }
+
+    @PostMapping("/{class_id}/unenroll/{student_id}")
+    public ResponseEntity<Map<String, String>> unenrollStudentFromCourse (@PathVariable String class_id, @PathVariable String student_id) {
+        
+        // Checking if the passed IDs are valid or not
+        
+        int valid_class_id = -1;
+        int valid_student_id = -1;
+        try {
+            valid_class_id = Integer.parseInt(class_id);
+        } catch (NumberFormatException exception) {
+            throw new InvalidInputException("Invalid Class ID: " + class_id);
+        }
+        try {
+            valid_student_id = Integer.parseInt(student_id);
+        } catch (NumberFormatException exception) {
+            throw new InvalidInputException("Invalid Student ID: " + student_id);
+        }
+
+        // Unenrolling Student from Class
+
+        classService.unenrollStudentFromClass(valid_class_id, valid_student_id);
+
+        // Creating an appropriate Response
+
+        Map <String, String> response = new TreeMap<>();
+        String message = "Student with Student-ID " + student_id + 
+            " has been successifully unenrolled from the Class with Class-ID " + class_id;  
+        response.put("message", message);
+
+        // Sending the response
+
         return ResponseEntity.ok().body(response);
     }
 

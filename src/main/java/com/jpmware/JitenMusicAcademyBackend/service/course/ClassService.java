@@ -11,6 +11,7 @@ public interface ClassService {
     // Create
     Class createClass(Class course);
     void enrollStudentToClass(int class_id, int student_id);
+    void unenrollStudentFromClass(int class_id, int student_id);
     void assignInstructorToCourse(int class_id, int instructor_id);
     
     // Read

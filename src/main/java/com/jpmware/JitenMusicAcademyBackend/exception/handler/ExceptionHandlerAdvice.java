@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.jpmware.JitenMusicAcademyBackend.dto.ErrorResponse;
 import com.jpmware.JitenMusicAcademyBackend.exception.custom.CustomException;
 import com.jpmware.JitenMusicAcademyBackend.exception.custom.InvalidInputException;
+import com.jpmware.JitenMusicAcademyBackend.exception.custom.StudentEnrollmentException;
 
 @RestControllerAdvice
 public class ExceptionHandlerAdvice {
@@ -26,6 +27,7 @@ public class ExceptionHandlerAdvice {
 
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleInvalidInputException(InvalidInputException exception) {
+
         ErrorResponse errorResponse = new ErrorResponse();
 
         errorResponse.setStatus(HttpStatus.BAD_REQUEST.value());
@@ -35,4 +37,15 @@ public class ExceptionHandlerAdvice {
         return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler
+    public ResponseEntity<ErrorResponse> handleStudentEnrollmentException(StudentEnrollmentException exception) {
+        
+        ErrorResponse errorResponse = new ErrorResponse();
+
+        errorResponse.setStatus(HttpStatus.BAD_REQUEST.value());
+        errorResponse.setMessage(exception.getMessage());
+        errorResponse.setTimestamp(System.currentTimeMillis());
+
+        return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
 }
