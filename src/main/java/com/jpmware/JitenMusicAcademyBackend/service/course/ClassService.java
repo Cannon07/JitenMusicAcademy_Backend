@@ -13,6 +13,7 @@ public interface ClassService {
     void enrollStudentToClass(int class_id, int student_id);
     void unenrollStudentFromClass(int class_id, int student_id);
     void assignInstructorToCourse(int class_id, int instructor_id);
+    void dismissInstructorFromCourse(int class_id, int instructor_id);
     
     // Read
     Class getClassById(int id);

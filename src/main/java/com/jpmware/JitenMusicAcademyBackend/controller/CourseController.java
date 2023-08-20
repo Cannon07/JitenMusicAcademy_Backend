@@ -41,7 +41,10 @@ public class CourseController {
     }
 
     @PostMapping("/{class_id}/enroll/{student_id}")
-    public ResponseEntity<Map<String, String>> enrollStudentToCourse (@PathVariable String class_id, @PathVariable String student_id) {
+    public ResponseEntity<Map<String, String>> enrollStudentToCourse (
+            @PathVariable String class_id, 
+            @PathVariable String student_id
+        ) {
         
         // Checking if the passed IDs are valid or not
         
@@ -66,7 +69,7 @@ public class CourseController {
 
         Map <String, String> response = new TreeMap<>();
         String message = "Student with Student-ID " + student_id + 
-            " has been successifully enrolled to the Class with Class-ID " + class_id;  
+            " has been successfully enrolled to the Class with Class-ID " + class_id;  
         response.put("message", message);
 
         // Sending the response
@@ -75,7 +78,10 @@ public class CourseController {
     }
 
     @PostMapping("/{class_id}/unenroll/{student_id}")
-    public ResponseEntity<Map<String, String>> unenrollStudentFromCourse (@PathVariable String class_id, @PathVariable String student_id) {
+    public ResponseEntity<Map<String, String>> unenrollStudentFromCourse (
+            @PathVariable String class_id, 
+            @PathVariable String student_id
+        ) {
         
         // Checking if the passed IDs are valid or not
         
@@ -100,7 +106,7 @@ public class CourseController {
 
         Map <String, String> response = new TreeMap<>();
         String message = "Student with Student-ID " + student_id + 
-            " has been successifully unenrolled from the Class with Class-ID " + class_id;  
+            " has been successfully unenrolled from the Class with Class-ID " + class_id;  
         response.put("message", message);
 
         // Sending the response
@@ -109,7 +115,10 @@ public class CourseController {
     }
 
     @PostMapping("/{class_id}/assign-instructor/{instructor_id}")
-    public ResponseEntity<Map<String, String>> assignInstructorToCourse (@PathVariable String class_id, @PathVariable String instructor_id) {
+    public ResponseEntity<Map<String, String>> assignInstructorToCourse (
+            @PathVariable String class_id, 
+            @PathVariable String instructor_id
+        ) {
         int valid_class_id = -1;
         int valid_instructor_id = -1;
         try {
@@ -125,7 +134,32 @@ public class CourseController {
         classService.assignInstructorToCourse(valid_class_id, valid_instructor_id);
         Map <String, String> response = new TreeMap<>();
         String message = "Instructor with Instructor-ID " + instructor_id + 
-            " has been successifully enrolled to the Class with Class-ID " + class_id;  
+            " has been successfully assigned to the Class with Class-ID " + class_id;  
+        response.put("message", message);
+        return ResponseEntity.ok().body(response);
+    }
+
+    @PostMapping("/{class_id}/dismiss-instructor/{instructor_id}")
+    public ResponseEntity<Map<String, String>> dismissInstructorFromCourse (
+            @PathVariable String class_id, 
+            @PathVariable String instructor_id
+        ) {
+        int valid_class_id = -1;
+        int valid_instructor_id = -1;
+        try {
+            valid_class_id = Integer.parseInt(class_id);
+        } catch (NumberFormatException exception) {
+            throw new InvalidInputException("Invalid Class ID: " + class_id);
+        }
+        try {
+            valid_instructor_id = Integer.parseInt(instructor_id);
+        } catch (NumberFormatException exception) {
+            throw new InvalidInputException("Invalid Instructor ID: " + instructor_id);
+        }
+        classService.dismissInstructorFromCourse(valid_class_id, valid_instructor_id);
+        Map <String, String> response = new TreeMap<>();
+        String message = "Instructor with Instructor-ID " + instructor_id + 
+            " has been successfully dismissed from the Class with Class-ID " + class_id;  
         response.put("message", message);
         return ResponseEntity.ok().body(response);
     }

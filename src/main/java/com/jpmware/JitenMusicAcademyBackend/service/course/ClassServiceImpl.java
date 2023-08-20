@@ -12,6 +12,7 @@ import com.jpmware.JitenMusicAcademyBackend.entity.Class;
 import com.jpmware.JitenMusicAcademyBackend.entity.Instructor;
 import com.jpmware.JitenMusicAcademyBackend.entity.Student;
 import com.jpmware.JitenMusicAcademyBackend.exception.custom.ClassNotFoundException;
+import com.jpmware.JitenMusicAcademyBackend.exception.custom.InstructorAssignmentException;
 import com.jpmware.JitenMusicAcademyBackend.exception.custom.InstructorNotFoundException;
 import com.jpmware.JitenMusicAcademyBackend.exception.custom.StudentEnrollmentException;
 import com.jpmware.JitenMusicAcademyBackend.exception.custom.StudentNotFoundException;
@@ -146,7 +147,32 @@ public class ClassServiceImpl implements ClassService {
         if (instructor == null) {
             throw new InstructorNotFoundException(instructor_id);
         }
+        if (course.getInstructor() != null) {
+            throw new InstructorAssignmentException(
+                "Class with ID " + class_id + " already has an assigned Instructor"
+            );
+        } 
         course.setInstructor(instructor);
+        courseDAO.updateCourse(class_id, course);
+    }
+
+    @Override
+    @Transactional
+    public void dismissInstructorFromCourse(int class_id, int instructor_id) {
+        Class course = courseDAO.getCourseById(class_id);
+        if (course == null) {
+            throw new ClassNotFoundException(class_id);
+        }
+        Instructor instructor = instructorDAO.getInstructorById(instructor_id);
+        if (instructor == null) {
+            throw new InstructorNotFoundException(instructor_id);
+        }
+        if (course.getInstructor() == null) {
+            throw new InstructorAssignmentException(
+                "Class with ID " + class_id + " has no assigned Instructor"
+            );
+        } 
+        course.setInstructor(null);
         courseDAO.updateCourse(class_id, course);
     }
     
