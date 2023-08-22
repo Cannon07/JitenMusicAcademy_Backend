@@ -1,4 +1,4 @@
-package com.jpmware.JitenMusicAcademyBackend.config;
+package com.jpmware.JitenMusicAcademyBackend.service;
 
 import java.security.Key;
 import java.util.Date;
