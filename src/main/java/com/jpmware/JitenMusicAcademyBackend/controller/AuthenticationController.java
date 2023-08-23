@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jpmware.JitenMusicAcademyBackend.dto.AuthenticationRequest;
 import com.jpmware.JitenMusicAcademyBackend.dto.AuthenticationResponse;
 import com.jpmware.JitenMusicAcademyBackend.dto.RegisterRequest;
-import com.jpmware.JitenMusicAcademyBackend.service.AuthenticationService;
+import com.jpmware.JitenMusicAcademyBackend.entity.User;
+import com.jpmware.JitenMusicAcademyBackend.service.authentication.AuthenticationService;
 
 @RestController
 @RequestMapping("api/auth")
@@ -24,7 +25,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register (
+    public ResponseEntity<User> register (
         @RequestBody RegisterRequest request
     ) {
         return ResponseEntity.ok(authenticationService.register(request));

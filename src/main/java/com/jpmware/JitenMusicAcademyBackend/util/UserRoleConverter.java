@@ -1,18 +1,21 @@
 package com.jpmware.JitenMusicAcademyBackend.util;
 
+import com.jpmware.JitenMusicAcademyBackend.dao.role.RoleRepository;
 import com.jpmware.JitenMusicAcademyBackend.entity.Role;
 
 public class UserRoleConverter {
 
+    private RoleRepository roleRepository;
+
+    public UserRoleConverter(RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
+    }
+
     public Role fromString(String role) {
-        switch(role) {
-            case "instructor":
-                return Role.ROLE_INSTRUCTOR;
-            case "student":
-                return Role.ROLE_STUDENT;
-            default:
-                return Role.ROLE_ADMIN;
+        if (role.equals("instructor")) {
+            return roleRepository.findByAuthority("INSTRUCTOR").get();
         }
+        return roleRepository.findByAuthority("STUDENT").get();
     }
     
 }

@@ -1,7 +1,10 @@
 package com.jpmware.JitenMusicAcademyBackend.dto;
 
+import com.jpmware.JitenMusicAcademyBackend.entity.User;
+
 public class AuthenticationResponse {
 
+    private User user;
     private String token;
 
     // Constructor
@@ -10,12 +13,21 @@ public class AuthenticationResponse {
 
     }
 
-    public AuthenticationResponse(String token) {
+    public AuthenticationResponse(User user, String token) {
+        this.user = user;
         this.token = token;
     }
 
     // Getters and Setters
+    
+    public User getUser() {
+        return user;
+    }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+    
     public String getToken() {
         return token;
     }
@@ -28,7 +40,7 @@ public class AuthenticationResponse {
 
     @Override
     public String toString() {
-        return "AuthenticationResponse [token=" + token + "]";
+        return "AuthenticationResponse [user=" + user + ", token=" + token + "]";
     }
     
 }
