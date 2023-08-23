@@ -9,8 +9,8 @@ import com.jpmware.JitenMusicAcademyBackend.dao.user.UserRepository;
 import com.jpmware.JitenMusicAcademyBackend.dto.AuthenticationRequest;
 import com.jpmware.JitenMusicAcademyBackend.dto.AuthenticationResponse;
 import com.jpmware.JitenMusicAcademyBackend.dto.RegisterRequest;
-import com.jpmware.JitenMusicAcademyBackend.entity.Role;
 import com.jpmware.JitenMusicAcademyBackend.entity.User;
+import com.jpmware.JitenMusicAcademyBackend.util.UserRoleConverter;
 
 @Service
 public class AuthenticationService {
@@ -19,17 +19,20 @@ public class AuthenticationService {
     private PasswordEncoder passwordEncoder;
     private JwtService jwtService;
     private AuthenticationManager authenticationManager;
+    private UserRoleConverter userRoleConverter;
 
     public AuthenticationService(
         UserRepository userRepository,
         PasswordEncoder passwordEncoder,
         JwtService jwtService, 
-        AuthenticationManager authenticationManager
+        AuthenticationManager authenticationManager,
+        UserRoleConverter userRoleConverter
     ) {
         repository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
+        this.userRoleConverter = userRoleConverter;
     }
 
     public AuthenticationResponse register(RegisterRequest request) {
@@ -38,7 +41,7 @@ public class AuthenticationService {
             request.getLast_name(),
             request.getEmail(),
             passwordEncoder.encode(request.getPassword()),
-            Role.ADMIN
+            userRoleConverter.fromString(request.getRole())
         );
         repository.save(user);
         String jwtToken = jwtService.generateToken(user);

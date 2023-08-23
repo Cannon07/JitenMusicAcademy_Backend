@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.jpmware.JitenMusicAcademyBackend.dao.user.UserRepository;
+import com.jpmware.JitenMusicAcademyBackend.util.UserRoleConverter;
 
 @Configuration
 public class ApplicationConfig {
@@ -43,7 +44,13 @@ public class ApplicationConfig {
         return configuration.getAuthenticationManager();
     }
 
-    @Bean PasswordEncoder passwordEncoder() {
+    @Bean 
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public UserRoleConverter userRoleConverter() {
+        return new UserRoleConverter();
     }
 }

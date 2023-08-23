@@ -8,6 +8,7 @@ public class RegisterRequest {
     private String last_name;
     private String email;
     private String password;
+    private String role;
 
     // Constructors
 
@@ -15,11 +16,12 @@ public class RegisterRequest {
 
     }
 
-    public RegisterRequest(String first_name, String last_name, String email, String password) {
+    public RegisterRequest(String first_name, String last_name, String email, String password, String role) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.email = email;
         this.password = password;
+        this.role = role;
     }
 
     // Getters and Setters
@@ -55,13 +57,21 @@ public class RegisterRequest {
     public void setPassword(String password) {
         this.password = password;
     }
+    
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 
     // toString() method
 
     @Override
     public String toString() {
         return "RegisterRequest [first_name=" + first_name + ", last_name=" + last_name + ", email=" + email
-                + ", password=" + password + "]";
+                + ", password=" + password + ", role=" + role + "]";
     }
 
 }
